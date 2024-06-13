@@ -1,20 +1,20 @@
-import youtube_dl
+import yt_dlp
 
-def download_soundcloud_track(url):
+def download_soundcloud_content(content_url, download_path):
     ydl_opts = {
         'format': 'bestaudio/best',
+        'outtmpl': download_path + '/%(title)s.%(ext)s',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'outtmpl': '%(title)s.%(ext)s',
-        'noplaylist': True,
     }
 
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([content_url])
 
-url = input("Enter song url :")
-
-download_soundcloud_track(url)
+if __name__ == "__main__":
+    content_url = input("Enter the SoundCloud URL (single track or playlist): ")
+    download_path = input("Enter the path where you want to save the content: ")
+    download_soundcloud_content(content_url, download_path)
